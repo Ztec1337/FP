@@ -23,11 +23,11 @@ def downloadfolder(url):
         
         if format == 'npy':
             temp = np.load(io.BytesIO(response.content),allow_pickle=True)
-            vars(sys.modules[__name__])[item[1].split('.')[0]] = temp
+            vars()[item[1].split('.')[0]] = temp
         if format == 'csv':
             temp = pd.read_csv(link)
             vars(sys.modules[__name__])[item[1].split('.')[0]] = temp
-
+        
         print(item,'name:',item[1].split('.')[0])
         print(link)
          
