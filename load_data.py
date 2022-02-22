@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 import requests
 import io
 
@@ -14,11 +15,17 @@ def downloadfolder(url):
     print('Adding new variables: ')
     downloadlink = 'https://drive.google.com/uc?id='
     for item in itemlist:
-        if item[1].split('.')[-1] == 'npy':
-            link = downloadlink+item[0]
-            response = requests.get(link)
-            response.raise_for_status()
+        link = downloadlink+item[0]
+        response = requests.get(link)
+        response.raise_for_status()
+        format = item[1].split('.')[-1]
+        
+        if format == 'npy':
             temp = np.load(io.BytesIO(response.content),allow_pickle=True)
-            vars()[item[1].split('.')[0]] = temp
-            print(item,'name:',item[1].split('.')[0])
-            print(link)
+        if format == 'csv':
+            temp = pd.read_csv(link)
+        
+        vars(sys.modules[__name__])[item[1].split('.')[0]] = temp
+        print(item,'name:',item[1].split('.')[0])
+        print(link)
+         
