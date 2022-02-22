@@ -1,2 +1,2 @@
-# fp_import
+# FP
 package for Fp
