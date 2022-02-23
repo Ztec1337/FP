@@ -2,7 +2,6 @@ import numpy as np
 import pandas as pd
 import requests
 import io
-import sys
 
 from google.colab import auth
 auth.authenticate_user() 
@@ -23,10 +22,10 @@ def downloadfolder(url):
         
         if format == 'npy':
             temp = np.load(io.BytesIO(response.content),allow_pickle=True)
-            vars()[item[1].split('.')[0]] = temp
+            globals()[item[1].split('.')[0]] = temp
         if format == 'csv':
             temp = pd.read_csv(link)
-            vars(sys.modules[__name__])[item[1].split('.')[0]] = temp
+            globals()[item[1].split('.')[0]] = temp
         
         print(item,'name:',item[1].split('.')[0])
         print(link)
